@@ -2,6 +2,8 @@ import "../stylesheets/app.css";
 import { default as Web3 } from 'web3';
 import { default as contract } from 'truffle-contract';
 import { default as CryptoJS } from 'crypto-js';
+import "./browser-solc.js";
+
 var accounts;
 var account;
 var foodSafeABI;
@@ -19,6 +21,11 @@ window.App = {
         alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
         return;
       }
+      //Get a list of all possibile solc versions
+      BrowserSolc.getVersions(function (soljsonSources, soljsonReleases) {
+        console.log(soljsonSources);
+        console.log(soljsonReleases);
+      });
 
       accounts = accs;
       account = accounts[0];
@@ -32,6 +39,13 @@ window.App = {
         foodSafeCode = foodSafeCompiled['<stdin>:FoodSafe'].code;
 
       });
+      // BrowserSolc.loadVersion("soljson-v0.4.6+commit.2dabbdf0.js", function (compiler) {
+      //   var foodSafeSource = "pragma solidity ^0.4.6; contract FoodSafe { ... });
+      //   var optimize = 1;
+      //   var result = compiler.compile(foodSafeSource, optimize);
+      //   console.log(result);
+      // });
+
     });
   },
   createContract: function () {
